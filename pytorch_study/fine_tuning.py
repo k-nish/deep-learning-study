@@ -112,25 +112,25 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
     return model
 
 
-model_ft = models.resnet18(pretrained=True)
-print(model_ft)
-
-num_features = model_ft.fc.in_features
-print(num_features)
-
-model_ft.fc = nn.Linear(num_features, 2)
-print(model_ft)
-
-if use_gpu:
-    model_ft = model_ft.cuda()
-
-criterion = nn.CrossEntropyLoss()
-optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
-# 0.1 times by 7 epochs
-exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
-
-model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler, num_epochs=25)
-torch.save(model_ft.state_dict(), 'model_ft.pkl')
+# model_ft = models.resnet18(pretrained=True)
+# print(model_ft)
+#
+# num_features = model_ft.fc.in_features
+# print(num_features)
+#
+# model_ft.fc = nn.Linear(num_features, 2)
+# print(model_ft)
+#
+# if use_gpu:
+#     model_ft = model_ft.cuda()
+#
+# criterion = nn.CrossEntropyLoss()
+# optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+# # 0.1 times by 7 epochs
+# exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+#
+# model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler, num_epochs=25)
+# torch.save(model_ft.state_dict(), 'model_ft.pkl')
 
 '''
 fix model weights
@@ -149,7 +149,7 @@ if use_gpu:
 
 criterion = nn.CrossEntropyLoss()
 
-optimizer_conv = optim.SGD(model_conv.parameters(), lr=0.001, momentum=0.9)
+optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 model_conv = train_model(model_conv, criterion, optimizer_conv, exp_lr_scheduler, num_epochs=25)
 torch.save(model_conv.state_dict(), 'model_conv.pkl')
